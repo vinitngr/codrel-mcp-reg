@@ -1,1 +1,0 @@
-{"version":3,"file":"mcp-stdio.js","sourceRoot":"","sources":["../../src/server/mcp-stdio.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,oBAAoB,EAAE,uBAAuB,EAAE,MAAM,aAAa,CAAC;AAE5E,MAAM,CAAC,MAAM,eAAe,GAAG,KAAK,IAAI,EAAE;IACxC,MAAM,MAAM,GAAG,oBAAoB,EAAE,CAAC;IACtC,MAAM,uBAAuB,CAAC,MAAM,CAAC,CAAC;IACtC,OAAO,CAAC,KAAK,CAAC,mCAAmC,CAAC,CAAC;AACrD,CAAC,CAAC;AAEF,eAAe,EAAE,CAAC"}
