@@ -1,0 +1,39 @@
+{
+  "name": "codrel-ide-extension",
+  "displayName": "Codrel AI Devtools",
+  "publisher": "codrel",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codrel.registerMcp",
+        "title": "Codrel: Register MCP Server"
+      },
+      {
+        "command": "codrel.setToken",
+        "title": "Codrel: Set API Token"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js",
+    "watch": "esbuild src/extension.ts --bundle --platform=node --external:vscode --outfile=dist/extension.js --watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/vscode": "^1.106.1",
+    "esbuild": "^0.27.0",
+    "vscode": "^1.1.37"
+  }
+}
