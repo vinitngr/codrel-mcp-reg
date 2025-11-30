@@ -7187,6 +7187,575 @@ var require_dist = __commonJS({
   }
 });
 
+// ../../node_modules/.pnpm/wink-helpers@2.0.0/node_modules/wink-helpers/src/wink-helpers.js
+var require_wink_helpers = __commonJS({
+  "../../node_modules/.pnpm/wink-helpers@2.0.0/node_modules/wink-helpers/src/wink-helpers.js"(exports2, module2) {
+    var helpers = /* @__PURE__ */ Object.create(null);
+    var productReducer = function(prev, curr) {
+      var c, cmax = curr.length;
+      var p, pmax = prev.length;
+      var result = [];
+      for (p = 0; p < pmax; p += 1) {
+        for (c = 0; c < cmax; c += 1) {
+          result.push(prev[p].concat(curr[c]));
+        }
+      }
+      return result;
+    };
+    helpers.array = /* @__PURE__ */ Object.create(null);
+    helpers.array.isArray = function(v) {
+      return v !== void 0 && v !== null && Object.prototype.toString.call(v) === "[object Array]";
+    };
+    helpers.array.ascending = function(a, b) {
+      return a > b ? 1 : a === b ? 0 : -1;
+    };
+    helpers.array.descending = function(a, b) {
+      return b > a ? 1 : b === a ? 0 : -1;
+    };
+    helpers.array.ascendingOnKey = function(a, b) {
+      return a[0] > b[0] ? 1 : a[0] === b[0] ? 0 : -1;
+    };
+    helpers.array.descendingOnKey = function(a, b) {
+      return b[0] > a[0] ? 1 : b[0] === a[0] ? 0 : -1;
+    };
+    helpers.array.ascendingOnValue = function(a, b) {
+      return a[1] > b[1] ? 1 : a[1] === b[1] ? 0 : -1;
+    };
+    helpers.array.descendingOnValue = function(a, b) {
+      return b[1] > a[1] ? 1 : b[1] === a[1] ? 0 : -1;
+    };
+    helpers.array.ascendingOn = function(accessor1, accessor2) {
+      if (accessor2) {
+        return (function(a, b) {
+          return a[accessor1][accessor2] > b[accessor1][accessor2] ? 1 : a[accessor1][accessor2] === b[accessor1][accessor2] ? 0 : -1;
+        });
+      }
+      return (function(a, b) {
+        return a[accessor1] > b[accessor1] ? 1 : a[accessor1] === b[accessor1] ? 0 : -1;
+      });
+    };
+    helpers.array.descendingOn = function(accessor1, accessor2) {
+      if (accessor2) {
+        return (function(a, b) {
+          return b[accessor1][accessor2] > a[accessor1][accessor2] ? 1 : b[accessor1][accessor2] === a[accessor1][accessor2] ? 0 : -1;
+        });
+      }
+      return (function(a, b) {
+        return b[accessor1] > a[accessor1] ? 1 : b[accessor1] === a[accessor1] ? 0 : -1;
+      });
+    };
+    helpers.array.pluck = function(a, key, limit) {
+      var k, plucked;
+      k = a.length;
+      var i = key || 0;
+      var lim = limit || k;
+      if (lim > k) lim = k;
+      plucked = new Array(lim);
+      for (k = 0; k < lim; k += 1) plucked[k] = a[k][i];
+      return plucked;
+    };
+    helpers.array.product = function(a) {
+      return a.reduce(productReducer, [[]]);
+    };
+    helpers.array.shuffle = function(array2) {
+      var a = array2;
+      var balance = a.length;
+      var candidate;
+      var temp;
+      while (balance) {
+        candidate = Math.floor(Math.random() * balance);
+        balance -= 1;
+        temp = a[balance];
+        a[balance] = a[candidate];
+        a[candidate] = temp;
+      }
+      return a;
+    };
+    var objectKeys = Object.keys;
+    var objectCreate = Object.create;
+    helpers.object = /* @__PURE__ */ Object.create(null);
+    helpers.object.isObject = function(v) {
+      return v && Object.prototype.toString.call(v) === "[object Object]" ? true : false;
+    };
+    helpers.object.keys = function(obj) {
+      return objectKeys(obj);
+    };
+    helpers.object.size = function(obj) {
+      return objectKeys(obj).length;
+    };
+    helpers.object.values = function(obj) {
+      var keys = helpers.object.keys(obj);
+      var length = keys.length;
+      var values = new Array(length);
+      for (var i = 0; i < length; i += 1) {
+        values[i] = obj[keys[i]];
+      }
+      return values;
+    };
+    helpers.object.valueFreq = function(obj) {
+      var keys = helpers.object.keys(obj);
+      var length = keys.length;
+      var val;
+      var vf = objectCreate(null);
+      for (var i = 0; i < length; i += 1) {
+        val = obj[keys[i]];
+        vf[val] = 1 + (vf[val] || 0);
+      }
+      return vf;
+    };
+    helpers.object.table = function(obj, f) {
+      var keys = helpers.object.keys(obj);
+      var length = keys.length;
+      var pairs = new Array(length);
+      var ak, av;
+      for (var i = 0; i < length; i += 1) {
+        ak = keys[i];
+        av = obj[ak];
+        if (typeof f === "function") f(av);
+        pairs[i] = [ak, av];
+      }
+      return pairs;
+    };
+    helpers.validate = /* @__PURE__ */ Object.create(null);
+    helpers.validate.isObject = helpers.object.isObject;
+    helpers.validate.isArray = helpers.array.isArray;
+    helpers.validate.isFiniteInteger = function(n) {
+      return typeof n === "number" && !isNaN(n) && isFinite(n) && n === Math.round(n);
+    };
+    helpers.validate.isFiniteNumber = function(n) {
+      return typeof n === "number" && !isNaN(n) && isFinite(n);
+    };
+    helpers.validate.cross = function(classLabels) {
+      const unknown2 = "unknown";
+      var evaluated = false;
+      var cm;
+      var precision;
+      var recall;
+      var fmeasure;
+      var labels;
+      var labelCount;
+      var labelsObj = /* @__PURE__ */ Object.create(null);
+      var methods = /* @__PURE__ */ Object.create(null);
+      var reset = function() {
+        evaluated = false;
+        cm = /* @__PURE__ */ Object.create(null);
+        precision = /* @__PURE__ */ Object.create(null);
+        recall = /* @__PURE__ */ Object.create(null);
+        fmeasure = /* @__PURE__ */ Object.create(null);
+        for (let i = 0; i < labelCount; i += 1) {
+          const row = labels[i];
+          labelsObj[row] = true;
+          cm[row] = /* @__PURE__ */ Object.create(null);
+          precision[row] = 0;
+          recall[row] = 0;
+          fmeasure[row] = 0;
+          for (let j = 0; j < labelCount; j += 1) {
+            const col = labels[j];
+            cm[row][col] = 0;
+          }
+        }
+      };
+      var evaluate = function(truth, guess) {
+        if (guess === unknown2 || !labelsObj[truth] || !labelsObj[guess]) return false;
+        if (guess === truth) {
+          cm[truth][guess] += 1;
+        } else {
+          cm[guess][truth] += 1;
+        }
+        evaluated = true;
+        return true;
+      };
+      var metrics = function() {
+        if (!evaluated) return null;
+        var n = /* @__PURE__ */ Object.create(null);
+        var pd = /* @__PURE__ */ Object.create(null);
+        var rd = /* @__PURE__ */ Object.create(null);
+        var col, row;
+        var i, j;
+        var avgPrecision = 0;
+        var avgRecall = 0;
+        var avgFMeasure = 0;
+        for (i = 0; i < labelCount; i += 1) {
+          row = labels[i];
+          for (j = 0; j < labelCount; j += 1) {
+            col = labels[j];
+            if (row === col) {
+              n[row] = cm[row][col];
+            }
+            pd[row] = cm[row][col] + (pd[row] || 0);
+            rd[row] = cm[col][row] + (rd[row] || 0);
+          }
+        }
+        for (i = 0; i < labelCount; i += 1) {
+          row = labels[i];
+          precision[row] = +(n[row] / pd[row]).toFixed(4);
+          if (isNaN(precision[row])) precision[row] = 0;
+          recall[row] = +(n[row] / rd[row]).toFixed(4);
+          if (isNaN(recall[row])) recall[row] = 0;
+          fmeasure[row] = +(2 * precision[row] * recall[row] / (precision[row] + recall[row])).toFixed(4);
+          if (isNaN(fmeasure[row])) fmeasure[row] = 0;
+        }
+        for (i = 0; i < labelCount; i += 1) {
+          avgPrecision += precision[labels[i]] / labelCount;
+          avgRecall += recall[labels[i]] / labelCount;
+          avgFMeasure += fmeasure[labels[i]] / labelCount;
+        }
+        return {
+          // Macro-averaged metrics.
+          avgPrecision: +avgPrecision.toFixed(4),
+          avgRecall: +avgRecall.toFixed(4),
+          avgFMeasure: +avgFMeasure.toFixed(4),
+          details: {
+            // Confusion Matrix.
+            confusionMatrix: cm,
+            // Label wise metrics details, from those averages were computed.
+            precision,
+            recall,
+            fmeasure
+          }
+        };
+      };
+      if (!helpers.validate.isArray(classLabels)) {
+        throw Error("cross validate: class labels must be an array.");
+      }
+      if (classLabels.length < 2) {
+        throw Error("cross validate: at least 2 class labels are required.");
+      }
+      labels = classLabels;
+      labelCount = labels.length;
+      reset();
+      methods.reset = reset;
+      methods.evaluate = evaluate;
+      methods.metrics = metrics;
+      return methods;
+    };
+    helpers.string = /* @__PURE__ */ Object.create(null);
+    var rgxDiacritical = /[\u0300-\u036f]/g;
+    helpers.string.normalize = function(str) {
+      return str.toLowerCase().normalize("NFD").replace(rgxDiacritical, "");
+    };
+    module2.exports = helpers;
+  }
+});
+
+// ../../node_modules/.pnpm/wink-bm25-text-search@3.1.2/node_modules/wink-bm25-text-search/src/wink-bm25-text-search.js
+var require_wink_bm25_text_search = __commonJS({
+  "../../node_modules/.pnpm/wink-bm25-text-search@3.1.2/node_modules/wink-bm25-text-search/src/wink-bm25-text-search.js"(exports2, module2) {
+    var helpers = require_wink_helpers();
+    var bm25fIMS = function() {
+      var pTasks = [];
+      var pTaskCount;
+      var flds = /* @__PURE__ */ Object.create(null);
+      var methods = /* @__PURE__ */ Object.create(null);
+      var documents = /* @__PURE__ */ Object.create(null);
+      var invertedIdx = [];
+      var idf = [];
+      var learned = false;
+      var consolidated = false;
+      var totalDocs = 0;
+      var totalCorpusLength = 0;
+      var avgCorpusLength = 0;
+      var config2 = null;
+      var token2Index = /* @__PURE__ */ Object.create(null);
+      var currTokenIndex = 0;
+      var prepareInput = function(input, field) {
+        var processedInput = input;
+        var pt = flds[field] && flds[field].pTasks || pTasks;
+        var ptc = flds[field] && flds[field].pTaskCount || pTaskCount;
+        for (var i = 0; i < ptc; i += 1) {
+          processedInput = pt[i](processedInput);
+        }
+        return processedInput;
+      };
+      var updateFreq = function(id, text, weight, freq, field) {
+        var tkns = prepareInput(text, field);
+        var t;
+        for (var i = 0, imax = tkns.length; i < imax; i += 1) {
+          t = tkns[i];
+          if (token2Index[t] === void 0) {
+            token2Index[t] = currTokenIndex;
+            currTokenIndex += 1;
+          }
+          t = token2Index[t];
+          if (freq[t] === void 0) {
+            freq[t] = weight;
+            invertedIdx[t] = invertedIdx[t] || [];
+            invertedIdx[t].push(id);
+          } else {
+            freq[t] += weight;
+          }
+        }
+        return tkns.length * Math.abs(weight);
+      };
+      var definePrepTasks = function(tasks, field) {
+        if (config2 === null) {
+          throw Error("winkBM25S: Config must be defined before defining prepTasks.");
+        }
+        if (!helpers.array.isArray(tasks)) {
+          throw Error("winkBM25S: Tasks should be an array, instead found: " + JSON.stringify(tasks));
+        }
+        for (var i = 0, imax = tasks.length; i < imax; i += 1) {
+          if (typeof tasks[i] !== "function") {
+            throw Error("winkBM25S: Tasks should contain function, instead found: " + typeof tasks[i]);
+          }
+        }
+        var fldWeights = config2.fldWeights;
+        if (field === void 0 || field === null) {
+          pTasks = tasks;
+          pTaskCount = tasks.length;
+        } else {
+          if (!fldWeights[field] || typeof field !== "string") {
+            throw Error("winkBM25S: Field name is missing or it is not a string: " + JSON.stringify(field) + "/" + typeof field);
+          }
+          flds[field] = flds[field] || /* @__PURE__ */ Object.create(null);
+          flds[field].pTasks = tasks;
+          flds[field].pTaskCount = tasks.length;
+        }
+        return tasks.length;
+      };
+      var defineConfig = function(cfg) {
+        if (learned) {
+          throw Error("winkBM25S: config must be defined before learning/addition starts!");
+        }
+        if (!helpers.object.isObject(cfg)) {
+          throw Error("winkBM25S: config must be a config object, instead found: " + JSON.stringify(cfg));
+        }
+        if (!helpers.object.isObject(cfg.fldWeights)) {
+          throw Error("winkBM25S: fldWeights must be an object, instead found: " + JSON.stringify(cfg.fldWeights));
+        }
+        if (helpers.object.keys(cfg.fldWeights).length === 0) {
+          throw Error("winkBM25S: Field config has no field defined.");
+        }
+        config2 = /* @__PURE__ */ Object.create(null);
+        config2.fldWeights = /* @__PURE__ */ Object.create(null);
+        config2.bm25Params = /* @__PURE__ */ Object.create(null);
+        config2.bm25Params.k1 = 1.2;
+        config2.bm25Params.b = 0.75;
+        config2.bm25Params.k = 1;
+        for (var field in cfg.fldWeights) {
+          if (!cfg.fldWeights[field] || isNaN(cfg.fldWeights[field])) {
+            throw Error("winkBM25S: Field weight should be number >0, instead found: " + JSON.stringify(cfg.fldWeights[field]));
+          }
+          config2.fldWeights[field] = +cfg.fldWeights[field];
+        }
+        if (!helpers.object.isObject(cfg.bm25Params)) cfg.bm25Params = /* @__PURE__ */ Object.create(null);
+        config2.bm25Params.b = cfg.bm25Params.b === null || cfg.bm25Params.b === void 0 || isNaN(cfg.bm25Params.b) || (+cfg.bm25Params.b < 0 || +cfg.bm25Params.b > 1) ? 0.75 : +cfg.bm25Params.b;
+        config2.bm25Params.k1 = cfg.bm25Params.k1 === null || cfg.bm25Params.k1 === void 0 || isNaN(cfg.bm25Params.k1) || +cfg.bm25Params.k1 < 0 ? 1.2 : +cfg.bm25Params.k1;
+        config2.bm25Params.k = cfg.bm25Params.k === null || cfg.bm25Params.k === void 0 || isNaN(cfg.bm25Params.k) || +cfg.bm25Params.k < 0 ? 1 : +cfg.bm25Params.k;
+        config2.ovFldNames = [];
+        if (!cfg.ovFldNames) cfg.ovFldNames = [];
+        if (!helpers.array.isArray(cfg.ovFldNames)) {
+          throw Error("winkBM25S: OV Field names should be an array, instead found: " + JSON.stringify(typeof cfg.ovFldNames));
+        }
+        cfg.ovFldNames.forEach(function(f) {
+          if (typeof f !== "string" || f.length === 0) {
+            throw Error("winkBM25S: OV Field name should be a non-empty string, instead found: " + JSON.stringify(f));
+          }
+          config2.ovFldNames.push(f);
+        });
+        return true;
+      };
+      var addDoc = function(doc, id) {
+        if (config2 === null) {
+          throw Error("winkBM25S: Config must be defined before adding a document.");
+        }
+        var fldWeights = config2.fldWeights;
+        if (consolidated) {
+          throw Error("winkBM25S: post consolidation adding/learning is not possible!");
+        }
+        learned = true;
+        var length;
+        if (documents[id] !== void 0) {
+          throw Error("winkBM25S: Duplicate document encountered: " + JSON.stringify(id));
+        }
+        documents[id] = /* @__PURE__ */ Object.create(null);
+        documents[id].freq = /* @__PURE__ */ Object.create(null);
+        documents[id].fieldValues = /* @__PURE__ */ Object.create(null);
+        documents[id].length = 0;
+        for (var field in fldWeights) {
+          if (doc[field] === void 0) {
+            throw Error("winkBM25S: Missing field in the document: " + JSON.stringify(field));
+          }
+          length = updateFreq(id, doc[field], fldWeights[field], documents[id].freq, field);
+          documents[id].length += length;
+          totalCorpusLength += length;
+        }
+        config2.ovFldNames.forEach(function(f) {
+          if (doc[f] === void 0) {
+            throw Error("winkBM25S: Missing field in the document: " + JSON.stringify(f));
+          }
+          documents[id].fieldValues[f] = doc[f];
+        });
+        totalDocs += 1;
+        return totalDocs;
+      };
+      var getDocs = function() {
+        return documents;
+      };
+      var getTokens = function() {
+        return token2Index;
+      };
+      var getIDF = function() {
+        return idf;
+      };
+      var getConfig = function() {
+        return config2;
+      };
+      var getTotalCorpusLength = function() {
+        return totalCorpusLength;
+      };
+      var getTotalDocs = function() {
+        return totalDocs;
+      };
+      var consolidate = function(fp) {
+        if (consolidated) {
+          throw Error("winkBM25S: consolidation can be carried out only once!");
+        }
+        if (totalDocs < 3) {
+          throw Error("winkBM25S: document collection is too small for consolidation; add more docs!");
+        }
+        var freqPrecision = parseInt(fp, 10);
+        freqPrecision = isNaN(freqPrecision) ? 4 : freqPrecision < 4 ? 4 : freqPrecision > 9 ? 9 : freqPrecision;
+        var b = config2.bm25Params.b;
+        var k1 = config2.bm25Params.k1;
+        var k = config2.bm25Params.k;
+        var freq, id, n, normalizationFactor, t;
+        for (var i = 0, imax = invertedIdx.length; i < imax; i += 1) {
+          n = invertedIdx[i].length;
+          idf[i] = Math.log((totalDocs - n + 0.5) / (n + 0.5) + k);
+        }
+        avgCorpusLength = totalCorpusLength / totalDocs;
+        for (id in documents) {
+          normalizationFactor = 1 - b + b * (documents[id].length / avgCorpusLength);
+          for (t in documents[id].freq) {
+            freq = documents[id].freq[t];
+            documents[id].freq[t] = Math.sign(freq) * (Math.abs(freq * (k1 + 1) / (k1 * normalizationFactor + freq)) * idf[t]).toFixed(freqPrecision);
+          }
+        }
+        consolidated = true;
+        return true;
+      };
+      var search = function(text, limit, filter, params) {
+        if (!consolidated) {
+          throw Error("winkBM25S: search is not possible unless learnings are consolidated!");
+        }
+        if (typeof text !== "string") {
+          throw Error("winkBM25S: search text should be a string, instead found: " + typeof text);
+        }
+        var f = typeof filter === "function" ? filter : function() {
+          return true;
+        };
+        var tkns = prepareInput(text, "search").filter(function(t2) {
+          return token2Index[t2] !== void 0;
+        }).map(function(t2) {
+          return token2Index[t2];
+        });
+        var results = /* @__PURE__ */ Object.create(null);
+        var id, ids, t;
+        var i, imax, j, jmax;
+        for (j = 0, jmax = tkns.length; j < jmax; j += 1) {
+          t = tkns[j];
+          ids = invertedIdx[t];
+          for (i = 0, imax = ids.length; i < imax; i += 1) {
+            id = ids[i];
+            if (f(documents[id].fieldValues, params)) {
+              results[id] = documents[id].freq[t] + (results[id] || 0);
+            }
+          }
+        }
+        return helpers.object.table(results).sort(helpers.array.descendingOnValue).slice(0, Math.max(limit || 10, 1));
+      };
+      var reset = function() {
+        documents = /* @__PURE__ */ Object.create(null);
+        invertedIdx = [];
+        idf = [];
+        learned = false;
+        consolidated = false;
+        totalDocs = 0;
+        totalCorpusLength = 0;
+        avgCorpusLength = 0;
+        config2 = null;
+        token2Index = /* @__PURE__ */ Object.create(null);
+        currTokenIndex = 0;
+        return true;
+      };
+      var exportJSON = function() {
+        var docStats = /* @__PURE__ */ Object.create(null);
+        docStats.totalCorpusLength = totalCorpusLength;
+        docStats.totalDocs = totalDocs;
+        docStats.consolidated = consolidated;
+        return JSON.stringify([
+          config2,
+          docStats,
+          documents,
+          invertedIdx,
+          currTokenIndex,
+          token2Index,
+          // For future expansion but the import will have to have intelligence to
+          // set the default values and still ensure nothing breaks! Hopefully!!
+          {},
+          [],
+          []
+        ]);
+      };
+      var importJSON = function(json) {
+        if (!json) {
+          throw Error("winkBM25S: undefined or null JSON encountered, import failed!");
+        }
+        var isOK = [
+          helpers.object.isObject,
+          helpers.object.isObject,
+          helpers.object.isObject,
+          helpers.array.isArray,
+          Number.isInteger,
+          helpers.object.isObject,
+          helpers.object.isObject,
+          helpers.array.isArray,
+          helpers.array.isArray
+        ];
+        var parsedJSON = JSON.parse(json);
+        if (!helpers.array.isArray(parsedJSON) || parsedJSON.length !== isOK.length) {
+          throw Error("winkBM25S: invalid JSON encountered, can not import.");
+        }
+        for (var i = 0; i < isOK.length; i += 1) {
+          if (!isOK[i](parsedJSON[i])) {
+            throw Error("winkBM25S: invalid JSON encountered, can not import.");
+          }
+        }
+        reset();
+        learned = true;
+        config2 = parsedJSON[0];
+        totalCorpusLength = parsedJSON[1].totalCorpusLength;
+        totalDocs = parsedJSON[1].totalDocs;
+        consolidated = parsedJSON[1].consolidated;
+        documents = parsedJSON[2];
+        invertedIdx = parsedJSON[3];
+        currTokenIndex = parsedJSON[4];
+        token2Index = parsedJSON[5];
+        return true;
+      };
+      methods.definePrepTasks = definePrepTasks;
+      methods.defineConfig = defineConfig;
+      methods.addDoc = addDoc;
+      methods.getDocs = getDocs;
+      methods.getTokens = getTokens;
+      methods.getConfig = getConfig;
+      methods.getIDF = getIDF;
+      methods.getTotalCorpusLength = getTotalCorpusLength;
+      methods.getTotalDocs = getTotalDocs;
+      methods.consolidate = consolidate;
+      methods.search = search;
+      methods.exportJSON = exportJSON;
+      methods.importJSON = importJSON;
+      methods.reset = reset;
+      methods.learn = addDoc;
+      methods.predict = search;
+      return methods;
+    };
+    module2.exports = bm25fIMS;
+  }
+});
+
 // src/server/mcp-stdio.ts
 var mcp_stdio_exports = {};
 __export(mcp_stdio_exports, {
@@ -7195,11 +7764,12 @@ __export(mcp_stdio_exports, {
 module.exports = __toCommonJS(mcp_stdio_exports);
 
 // src/config/env.ts
-var import_dotenv = __toESM(require_main());
+var import_dotenv = __toESM(require_main(), 1);
 import_dotenv.default.config({ quiet: true });
 var envConfig = {
   codrel: {
-    token: process.env.CODREL_TOKEN
+    token: process.env.CODREL_TOKEN,
+    pick: process.env.CODREL_PICK ? Number(process.env.CODREL_PICK) : 5
   }
 };
 
@@ -19921,9 +20491,9 @@ var StdioServerTransport = class {
 var zod_default = external_exports;
 
 // src/tools/RAG.ts
-var import_path = __toESM(require("path"));
-var import_promises = __toESM(require("fs/promises"));
-var import_os = __toESM(require("os"));
+var import_path = __toESM(require("path"), 1);
+var import_promises = __toESM(require("fs/promises"), 1);
+var import_os = __toESM(require("os"), 1);
 
 // src/utils/constants.ts
 var DEFAULT_WEIGHTS = {
@@ -20098,13 +20668,15 @@ function scoreAll(retrievedChunks, query, weights) {
 }
 
 // src/filter-engine/preprocess.ts
+var import_wink_bm25_text_search = __toESM(require_wink_bm25_text_search(), 1);
 function filterTopK(scored, k) {
   return scored.slice().sort((a, b) => b._finalScore - a._finalScore).slice(0, k);
 }
 function filterByToken(scored, tokenMax) {
   let acc = 0;
   const out = [];
-  for (const c of scored.sort((a, b) => b._finalScore - a._finalScore)) {
+  const sorted = scored.slice().sort((a, b) => b._finalScore - a._finalScore);
+  for (const c of sorted) {
     const t = c.tokenLength || 0;
     if (acc + t > tokenMax) break;
     out.push(c);
@@ -20122,6 +20694,26 @@ function ProcessRetrieved(options) {
     topK = 5
   } = options;
   let scored = scoreAll(retrievedChunks, query, weights);
+  const bm25Engine = (0, import_wink_bm25_text_search.default)();
+  bm25Engine.defineConfig({ fldWeights: { body: 1 } });
+  bm25Engine.definePrepTasks([
+    (text) => text.toLowerCase().split(/\W+/).filter(Boolean)
+  ]);
+  for (const c of retrievedChunks) {
+    const full = fullChunks?.get(c.id);
+    const content = full?.pageContent || full?.text || c.pageContent || // IMPORTANT FIX
+    "";
+    if (content.trim().length > 0) {
+      bm25Engine.addDoc({ body: content }, c.id);
+    }
+  }
+  bm25Engine.consolidate();
+  const bm25Results = bm25Engine.search(query);
+  const bm25Map = new Map(bm25Results.map((r) => [r.id, r.score]));
+  for (const c of scored) {
+    const sparse = bm25Map.get(c.id) || 0;
+    c._finalScore = c._finalScore * 0.8 + sparse * 0.2;
+  }
   if (topK != null) scored = filterTopK(scored, topK);
   if (tokenMax != null) scored = filterByToken(scored, tokenMax);
   return scored.map((s) => {
@@ -20134,7 +20726,7 @@ function ProcessRetrieved(options) {
 var ROOT = import_path.default.join(import_os.default.homedir(), ".codrel");
 var RagService = class {
   constructor(collectionId, token) {
-    this.endpoint = "http://localhost:3000/api/ask";
+    this.endpoint = "https://codrel-dashboard.vercel.app/api/ask";
     this.apiToken = null;
     this.localId = null;
     this.cloud = true;
@@ -20175,11 +20767,14 @@ var RagService = class {
     }
   }
   async fetchRetrievals(projectId, query) {
-    if (!this.apiToken) throw new Error("API token not provided. Please set it using the 'Codrel: Set API Token' command in VS Code or Kiro");
+    if (!this.apiToken)
+      throw new Error(
+        "API token not provided. Please set it using the 'Codrel: Set API Token' command in VS Code or Kiro"
+      );
     const body = {
       token: this.apiToken,
       query,
-      k: 20,
+      k: 15,
       projectId,
       cloud: this.cloud
     };
@@ -20218,6 +20813,7 @@ var RagService = class {
         tokenLength: m.tokenLength,
         email: m.email,
         docId: m.docId,
+        pageContent: r.pageContent,
         neighbors: [],
         depth: 0
       };
@@ -20233,14 +20829,13 @@ var RagService = class {
     });
     return scored;
   }
-  createContextPrompt(filteredChunks) {
+  createContextPrompt(filteredChunks, pick2 = 5) {
     const out = [];
-    for (const c of filteredChunks) {
+    for (const c of filteredChunks.slice(0, pick2)) {
       if (this.cloud) {
-        out.push(
-          `// ${c.relativePath} (${c.startLine ?? "?"}-${c.endLine ?? "?"})
-` + (c.pageContent || "")
-        );
+        if (c.pageContent) {
+          out.push(c.pageContent);
+        }
         continue;
       }
       const full = this.chunks.get(c.id);
@@ -20255,12 +20850,12 @@ var RagService = class {
 };
 
 // src/tools/tools.ts
-var getCodrelTools = (token) => {
+var getCodrelTools = (token, options) => {
   return {
     getContext: {
       tool: {
         title: "RAG : Context Fetcher",
-        description: "Fetch and build prompt for RAG.",
+        description: "Fetch and build prompt for RAG. The AI agent must rewrite the user's question into a highly effective hybrid-search query. Extract intent, add technical synonyms, include API names, method names, errors, keywords, and file names. Remove fluff. Output a single optimized query string designed for vector + BM25 retrieval.",
         inputSchema: {
           collectionId: zod_default.string(),
           RaqQuery: zod_default.string().describe("The query to fetch relevant context for. enhance user query and pick relevant info so that retrieval is effective.")
@@ -20277,7 +20872,7 @@ var getCodrelTools = (token) => {
         try {
           const results = await rag.fetchRetrievals(collectionId, RaqQuery);
           const filtered = await rag.filterRetrieval(results, RaqQuery);
-          const prompt = rag.createContextPrompt(filtered);
+          const prompt = rag.createContextPrompt(filtered, options.pick);
           return {
             content: [{ type: "text", text: prompt }]
           };
@@ -20294,12 +20889,12 @@ var getCodrelTools = (token) => {
 };
 
 // src/server/server.ts
-function createStdioMcpServer(token) {
+function createStdioMcpServer(token, options) {
   const server = new McpServer({
     name: "@codrel-mcp",
     version: "1.0.0"
   });
-  let allTools = { ...getCodrelTools(token) };
+  let allTools = { ...getCodrelTools(token, { pick: options.pick }) };
   console.error("\u{1F6E0}\uFE0F Registering Codrel MCP tools...", token);
   console.error("\u{1F50D} Tools available before registration:", Object.keys(allTools));
   for (const [name, data] of Object.entries(allTools)) {
@@ -20325,8 +20920,9 @@ async function createStdioMcpTransport(server) {
 // src/server/mcp-stdio.ts
 var stdioMcpHandler = async () => {
   const token = getToken();
+  const pick2 = envConfig.codrel.pick || 5;
   if (!token) return;
-  const server = createStdioMcpServer(token);
+  const server = createStdioMcpServer(token, { pick: pick2 });
   await createStdioMcpTransport(server);
   console.error("codrelAi stdio mcp server running");
 };
